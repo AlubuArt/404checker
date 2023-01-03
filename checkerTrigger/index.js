@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import {urls} from './urls.js';
 import axios from 'axios';
 import http from 'http';
+import * as dotenv from 'dotenv';
 
 const httpAgent = new http.Agent({keepAlive: true, KeepAliveMsecs: 10000})
 const instance = axios.create({httpAgent: httpAgent})
@@ -51,8 +52,8 @@ const sendMail = async (sum, statusNotOk, errors, statusOK) => {
       ports: 465,
       secure: false,
       auth: {
-        user: "apikey", 
-        pass: process.env.API_KEY
+        user: process.env.SEND_GRID_API_USER, 
+        pass: process.env.SEND_GRID_API_KEY
       },
     });
   
