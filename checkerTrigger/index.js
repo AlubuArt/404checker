@@ -1,13 +1,22 @@
 import nodemailer from 'nodemailer';
-import {urls} from './urls.js';
+import {string} from './urls.js';
 import axios from 'axios';
 import http from 'http';
 import * as dotenv from 'dotenv';
 
+
 const httpAgent = new http.Agent({keepAlive: true, KeepAliveMsecs: 10000})
 const instance = axios.create({httpAgent: httpAgent})
 
-const getHttpsStatus = async () => { 
+
+function stringToArray(inputString) {
+  // Split the input string by newline character and filter out any empty strings
+  return inputString.split('\n').filter(url => url.trim() !== '');
+}
+
+export const getHttpsStatus = async () => { 
+
+    const urls = stringToArray(string)
 
     return Promise.all(urls.map(async (url) => {
           try {
@@ -26,7 +35,7 @@ const getHttpsStatus = async () => {
 }
 
 
-const checkStatus = async (arr) => {
+export const checkStatus = async (arr) => {
     const errors = []
     const statusOK = []
     const statusNotOK = []
@@ -52,15 +61,15 @@ const sendMail = async (sum, statusNotOk, errors, statusOK) => {
       ports: 465,
       secure: false,
       auth: {
-        user: process.env.SEND_GRID_API_USER, 
-        pass: process.env.SEND_GRID_API_KEY
+        user: 'apikey', 
+        pass: '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'
       },
     });
   
     let info = await transporter.sendMail({
       from: 'jacobc@its.aau.dk', // sender address
-      to: "trgu@aub.aau.dk",
-      cc: "jacobc@its.aau.dk",
+      to: "jc@jcvisueldesign.dk",
+      //cc: "jacobc@its.aau.dk",
       subject: "Daily Impact Ranking 404 check", // Subject line
       text: `Hej Troels
       Her er din daglige Impact Ranking oversigt.
@@ -96,22 +105,21 @@ const sendMail = async (sum, statusNotOk, errors, statusOK) => {
     });
   
   }
-const run = async (context, myTimer) => {
+export const run = async (context, myTimer) => {
     const p = await getHttpsStatus();
-    /* context.log(p) */
     const sum = p.length;
     const [i, k, r] = await checkStatus(p); 
-    sendMail(sum, k, r, i)
-    console.log("Checked URL´s in total: " + sum)
+    const errorUrls = k.map(error => error.url)
+    const noResponse = r.map(response => response.url)
+    
+/*     console.log("Checked URL´s in total: " + sum)
     console.log("200´s in total: " + i.length)
     console.log("Errors: " + JSON.stringify(k))
-    console.log("No response: " + JSON.stringify(r))
-    context.log("Checked URL´s in total: " + sum)
-    context.log("200´s in total: " + i.length)
-    context.log("Errors: " + JSON.stringify(k))
-    context.log("No response: " + JSON.stringify(r))
-  }
-/* run() */
+    console.log("No response: " + JSON.stringify(r)) */
 
-export default run;
+    return { i, errorUrls , noResponse, sum}
+  }
+//run()
+
+/* export default run; */
 
