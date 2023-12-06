@@ -14,25 +14,36 @@ function stringToArray(inputString) {
   return inputString.split('\n').filter(url => url.trim() !== '');
 }
 
-export const getHttpsStatus = async () => { 
+import axios from 'axios';
+import async from 'async';
 
-    const urls = stringToArray(string)
+export const getHttpsStatus = async () => {
+    const urls = stringToArray(string);
 
-    return Promise.all(urls.map(async (url) => {
-          try {
+    // Concurrency limit
+    const concurrencyLimit = 10;
+
+    const getStatus = async (url) => {
+        try {
             const res = await axios.get(url, instance);
-            if(res) {
-              return {url: url, statusCode: res.status}
-            }
+            return { url: url, statusCode: res ? res.status : 'No response' };
         } catch (err) {
-          if(err.response) {
-            return {url: url, statusCode: err.response.status}
-          } else {
-            return {url: url, statusCode: err}
-          }
+            return { url: url, statusCode: err.response ? err.response.status : 'Error' };
         }
-    }))
-}
+    };
+
+    const limitedGetStatus = async.reflectAll(urls.map(url => async () => getStatus(url)));
+
+    return new Promise((resolve, reject) => {
+        async.parallelLimit(limitedGetStatus, concurrencyLimit, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results.map(result => result.value));
+            }
+        });
+    });
+};
 
 
 export const checkStatus = async (arr) => {
