@@ -3,6 +3,7 @@ import {string} from './urls.js';
 import axios from 'axios';
 import http from 'http';
 import * as dotenv from 'dotenv';
+import async from 'async';
 
 
 const httpAgent = new http.Agent({keepAlive: true, KeepAliveMsecs: 10000})
@@ -14,8 +15,7 @@ function stringToArray(inputString) {
   return inputString.split('\n').filter(url => url.trim() !== '');
 }
 
-import axios from 'axios';
-import async from 'async';
+
 
 export const getHttpsStatus = async () => {
     const urls = stringToArray(string);
