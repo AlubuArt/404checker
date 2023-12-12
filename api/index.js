@@ -8,7 +8,7 @@ import {getCache, setCache} from '../checkerTrigger/cache.js';
 
 
 app.get('/api/crawl', async (req, res) => {
-    const cacheKey = 'crawlData_2024';
+    const cacheKey = 'crawlData_2023';
 
     try {
       let data = getCache(cacheKey);

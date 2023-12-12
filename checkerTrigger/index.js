@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import async from 'async';
 
 
-const httpAgent = new http.Agent({keepAlive: true, KeepAliveMsecs: 10000})
+const httpAgent = new http.Agent({keepAlive: true, KeepAliveMsecs: 2000})
 const instance = axios.create({httpAgent: httpAgent})
 
 
