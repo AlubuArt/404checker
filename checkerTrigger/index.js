@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {string} from './urls.js';
+
 import axios from 'axios';
 import http from 'http';
 import * as dotenv from 'dotenv';
@@ -17,11 +17,12 @@ function stringToArray(inputString) {
 
 
 
-export const getHttpsStatus = async () => {
-    const urls = stringToArray(string);
+export const getHttpsStatus = async (inp) => {
+    const urls = stringToArray(inp);
 
     // Concurrency limit
     const concurrencyLimit = 10;
+    axios.defaults.timeout = 2000;
 
     const getStatus = async (url) => {
         try {
@@ -116,8 +117,8 @@ const sendMail = async (sum, statusNotOk, errors, statusOK) => {
     });
   
   }
-export const run = async (context, myTimer) => {
-    const p = await getHttpsStatus();
+export const run = async (string) => {
+    const p = await getHttpsStatus(string);
     const sum = p.length;
     const [i, k, r] = await checkStatus(p); 
     const errorUrls = k.map(error => error.url)

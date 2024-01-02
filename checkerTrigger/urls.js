@@ -1,4 +1,4 @@
-export const string = `
+export const string1 = `
 https://www.aau.dk/
 https://www.aau.dk/3-nye-tiltag-i-kantinen-der-gavner-bade-su-budgettet-og-klimaet-n43866
 https://www.aau.dk/uden-mad-og-drikke-duer-helten-ikke-n94515
@@ -97,6 +97,9 @@ https://www.isu.aau.dk/upon-arrival/learning-danish/#368118
 https://www.en.aub.aau.dk/meet-us/branches-and-opening-hours/bring-the-kids
 https://www.ansatte.aau.dk/aau-s-mentorprogram-bringer-medarbejdere-sammen-pa-tvaers-af-aau-til-samtaler-om-karriereudvikling-n61475
 https://www.staff.aau.dk/rules/staff-affairs/offensive-behaviour-procedure#how-aalborg-university-handles-cases-of-possible-offensive-behaviour
+`
+
+export const string2 = `
 https://www.en.aau.dk/about-aau/contact/whistleblowing-scheme#can-you-remain-anonymous?
 https://www.aau.dk/nye-baeredygtighedskrav-til-byggeri-pa-aalborg-universitet-n45474
 https://www.aau.dk/campus-service-arbejder-malrettet-pa-at-spare-pa-energiforbruget-n45213
@@ -208,5 +211,4 @@ https://smartenergysystems.eu/2022-2/
 https://www.globalfocusmagazine.com/aaubs-collaborates-with-international-organisations-to-solve-global-challenges-through-data-science/
 https://ewh-aau.dk/
 https://nben.dk/ydelser/projekter/det-gronne-rejsehold
-https://www.youthsgogreen.dk/om-projektet/
-`
+https://www.youthsgogreen.dk/om-projektet/`
